@@ -4,7 +4,9 @@ const ACTIONS={
     DISCONNECTED:'disconnected',
     CODE_CHANGE:'code-change',
     SYNC_CODE:'sync-code',
-    LEAVE:'leave'
+    LEAVE:'leave',
+    CLONE_REPOSITORY:'clone'
 }
 
 module.exports=ACTIONS;
+ 
