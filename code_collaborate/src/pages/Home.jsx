@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <div className="homePageWrapper">
       <div className="formWrapper">
-        <img className="homePageLogo"  src="" alt="code_collaborate_logo" />
+        <h1>CodeCollaborate</h1>
         <h4 className="mainLabel">Paste Invitation Room ID</h4>
         <div className="inputGroup">
           <input type="text" className="inputBox" placeholder="ROOM ID" value={roomId} onChange={(e)=>setRoomId(e.target.value)} onKeyUp={handleInputEnter} />

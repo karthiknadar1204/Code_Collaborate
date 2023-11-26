@@ -89,7 +89,7 @@ const EditorPage = () => {
   
   return (
     <div className='mainWrap' >
-      <div className="aside">
+      <div className="aside"> 
         <div className="asideInner">
           <div className="logo">
             <img className='logoImage' src="" alt="code_Collaborate_Logo" />
