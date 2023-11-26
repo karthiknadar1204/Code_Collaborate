@@ -49,7 +49,6 @@ const EditorPage = () => {
         username: location.state?.username,
       });
   
-      // Listening for joined event
       socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
         if (username !== location.state?.username) {
           toast.success(`${username} joined the room`);
@@ -62,7 +61,6 @@ const EditorPage = () => {
         })
       });
   
-      // Listening for disconnected
       socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room`);
         setClients((prev) => {
@@ -73,7 +71,6 @@ const EditorPage = () => {
   
     init();
   
-    // Cleanup effect
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();

@@ -29,7 +29,6 @@ const Editor = ({ socketRef, roomId,onCodeChange }) => {
         const code = instance.getValue();
         onCodeChange(code);
         
-        // Check if syncingCodeRef is set to true to prevent feedback loop
         if (origin !== 'setValue' && !syncingCodeRef.current) {
           socketRef.current.emit(ACTIONS.CODE_CHANGE, {
             roomId,
@@ -45,9 +44,9 @@ const Editor = ({ socketRef, roomId,onCodeChange }) => {
     if (socketRef.current) {
       socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         if (code !== null) {
-          syncingCodeRef.current = true; // Set syncingCodeRef to true during syncing
+          syncingCodeRef.current = true;
           editorRef.current.setValue(code);
-          syncingCodeRef.current = false; // Set syncingCodeRef back to false after syncing
+          syncingCodeRef.current = false;
         }
       });
     }
