@@ -8,37 +8,30 @@ import { initSocket } from '../socket';
 import ACTIONS from '../Actions';
 import { useLocation, useNavigate,Navigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
-
 const EditorPage = () => {
   const socketRef=useRef(null);
   const codeRef=useRef(null);
   const location=useLocation();
   const reactNavigator=useNavigate();
   const {roomId}=useParams();
-
   const copyRoomId =async()=>{
     try {
       await navigator.clipboard.writeText(roomId);
       toast.success('ROOM ID has been copied to your clipboard')
-      
     } catch (error) {
       toast.error('Could not copy the ROOM ID')
       console.error(error);
     }
   }
-
   const leaveRoom=()=>{
     reactNavigator('/');
   }
-
   const[clients,setClients]=useState([]);
   useEffect(() => {
     const init = async () => {
       socketRef.current = await initSocket();
       socketRef.current.on('connect_error', (err) => handleErrors(err));
       socketRef.current.on('connect_failed', (err) => handleErrors(err));
-  
       const handleErrors = (e) => {
         console.log('socket error', e);
         toast('socket connection failed, try again later');
@@ -48,7 +41,6 @@ const EditorPage = () => {
         roomId,
         username: location.state?.username,
       });
-  
       socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
         if (username !== location.state?.username) {
           toast.success(`${username} joined the room`);
@@ -60,7 +52,6 @@ const EditorPage = () => {
           socketId
         })
       });
-  
       socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room`);
         setClients((prev) => {
@@ -68,9 +59,7 @@ const EditorPage = () => {
         });
       });
     };
-  
     init();
-  
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
@@ -79,11 +68,9 @@ const EditorPage = () => {
       }
     };
   }, []);
-
   if (!location.state) {
     return <Navigate to={'/'} />;
   }
-  
   return (
     <div className='mainWrap' >
       <div className="aside"> 
@@ -106,7 +93,6 @@ const EditorPage = () => {
         <button className='btn copyBtn' onClick={copyRoomId} >
             COPY ROOM ID
         </button>
-
         <button className='btn leaveBtn' onClick={leaveRoom} >
           LEAVE
         </button>
@@ -117,5 +103,4 @@ const EditorPage = () => {
     </div>
   )
 }
-
 export default EditorPage

@@ -6,11 +6,9 @@ import 'codemirror/theme/dracula.css';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/closebrackets';
 import ACTIONS from '../Actions';
-
 const Editor = ({ socketRef, roomId,onCodeChange }) => {
   const editorRef = useRef(null);
   const syncingCodeRef = useRef(false); 
-
   useEffect(() => {
     async function init() {
       editorRef.current = Codemirror.fromTextArea(document.getElementById('realtimeEditor'), {
@@ -23,12 +21,10 @@ const Editor = ({ socketRef, roomId,onCodeChange }) => {
         autoCloseBrackets: true,
         lineNumbers: true,
       });
-
       editorRef.current.on('changes', (instance, changes) => {
         const { origin } = changes;
         const code = instance.getValue();
         onCodeChange(code);
-        
         if (origin !== 'setValue' && !syncingCodeRef.current) {
           socketRef.current.emit(ACTIONS.CODE_CHANGE, {
             roomId,
@@ -39,7 +35,6 @@ const Editor = ({ socketRef, roomId,onCodeChange }) => {
     }
     init();
   }, []);
-
   useEffect(() => {
     if (socketRef.current) {
       socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
@@ -50,14 +45,12 @@ const Editor = ({ socketRef, roomId,onCodeChange }) => {
         }
       });
     }
-
     return () => {
       if (socketRef.current) {
         socketRef.current.off(ACTIONS.CODE_CHANGE);
       }
     };
   }, [socketRef.current]);
-
   return (
     <>
       <textarea id="realtimeEditor"></textarea>

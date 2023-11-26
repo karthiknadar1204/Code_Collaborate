@@ -7,14 +7,12 @@ const Home = () => {
     const [roomId,setRoomId]=useState('');
     const [username,setUsername]=useState('');
     const navigate=useNavigate();
-
     const createNewRoom=(e)=>{
         e.preventDefault();
         const id=uuidV4();
         setRoomId(id);
         toast.success('Created a new room'); 
     }
-
     const joinRoom=(e)=>{
         if(!roomId || !username){
             toast.error('Room Id and username are required');
@@ -26,13 +24,11 @@ const Home = () => {
             }
         })
     }
-
     const handleInputEnter=(e)=>{
         if(e.code==='Enter'){
             joinRoom()
         }
     }
-
   return (
     <div className="homePageWrapper">
       <div className="formWrapper">
@@ -49,7 +45,6 @@ const Home = () => {
             <a onClick={createNewRoom}  href="/" className="createNewBtn" >
                 new room
             </a>
-
           </span>
         </div>
       </div>
@@ -59,5 +54,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

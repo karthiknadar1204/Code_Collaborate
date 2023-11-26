@@ -17,9 +17,7 @@ const App = () => {
           }
         }
       }}
-      
       >
-
       </Toaster>
     </div>
     <BrowserRouter>
@@ -31,5 +29,4 @@ const App = () => {
     </>
   )
 }
-
 export default App
