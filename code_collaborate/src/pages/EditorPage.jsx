@@ -27,31 +27,36 @@ const EditorPage = () => {
     reactNavigator('/');
   }
   const[clients,setClients]=useState([]);
+
   useEffect(() => {
+    const handleErrors = (e) => {
+      console.log('socket error', e);
+      toast('socket connection failed, try again later');
+      reactNavigator('/');
+    };
+  
     const init = async () => {
       socketRef.current = await initSocket();
       socketRef.current.on('connect_error', (err) => handleErrors(err));
       socketRef.current.on('connect_failed', (err) => handleErrors(err));
-      const handleErrors = (e) => {
-        console.log('socket error', e);
-        toast('socket connection failed, try again later');
-        reactNavigator('/');
-      };
+  
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
         username: location.state?.username,
       });
+  
       socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
         if (username !== location.state?.username) {
           toast.success(`${username} joined the room`);
           console.log(`${username} joined`);
         }
         setClients(clients);
-        socketRef.current.emit(ACTIONS.SYNC_CODE,{
-          code:codeRef.current,
-          socketId
-        })
+        socketRef.current.emit(ACTIONS.SYNC_CODE, {
+          code: codeRef.current,
+          socketId,
+        });
       });
+  
       socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room`);
         setClients((prev) => {
@@ -59,7 +64,9 @@ const EditorPage = () => {
         });
       });
     };
+  
     init();
+  
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
@@ -68,6 +75,7 @@ const EditorPage = () => {
       }
     };
   }, []);
+  
   if (!location.state) {
     return <Navigate to={'/'} />;
   }

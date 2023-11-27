@@ -4,9 +4,22 @@ const http=require('http');
 const {Server}=require('socket.io');
 const ACTIONS = require('./src/Actions');
 const path = require('path'); 
+const cors = require('cors');
 const server=http.createServer(app);
+
 const io=new Server(server);
 app.use(express.static('build')); 
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+  };
+  app.use(cors(corsOptions));
+  
+
+
 app.use((req,res,next)=>{
     res.sendFile(path.join(__dirname,'build','index.html'))
 })
