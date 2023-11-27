@@ -84,7 +84,7 @@ const EditorPage = () => {
       <div className="aside"> 
         <div className="asideInner">
           <div className="logo">
-            <img className='logoImage' src="" alt="code_Collaborate_Logo" />
+            CodeCollaborate
           </div>
           <h3>Connected</h3>
           <div className="clientList">
