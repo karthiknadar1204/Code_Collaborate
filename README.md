@@ -5,7 +5,7 @@ This real-time synchronization allows multiple individuals to work together seam
 
 <h1>Setup</h1>
 1) cd code_collaborate </br> 
-2)npm run server:front </br>
+2) npm run start:front </br>
 3) npm run server:dev
 
 
